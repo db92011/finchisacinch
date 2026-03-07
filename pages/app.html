@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Finch</title>
+  <meta name="theme-color" content="#2DCBB7" />
+
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="icon" href="/favicon.ico" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/app.css?v=77781" />
+</head>
+
+<body class="app">
+  <div class="page">
+    <div class="shell">
+
+      <!-- HEADER -->
+      <header class="header">
+        <div class="brand">
+          <img src="/icon-192.png" alt="Finch" />
+          <div class="brandText">
+            <h1>Finch</h1>
+            <p>Write, clearer texts, and emails in seconds.</p>
+          </div>
+        </div>
+
+        <div class="headerActions">
+          <button class="btn btnGhost" id="clearBtn" type="button">Clear</button>
+        </div>
+      </header>
+
+      <!-- MAIN -->
+      <main class="main">
+
+        <!-- INPUT PANEL -->
+        <section class="panel">
+          <label for="ownerName">Your name (signature)</label>
+          <input id="ownerName" type="text" autocomplete="name" placeholder="Your name" />
+
+          <div class="row2">
+            <div>
+              <label for="tone">Tone (adjust your vibe)</label>
+              <select id="tone">
+                <option value="friendly" selected>Friendly</option>
+                <option value="casual">Casual</option>
+                <option value="business">Business</option>
+                <option value="funny">Funny</option>
+                <option value="unfiltered">Unfiltered</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="mode">Mode</label>
+              <select id="mode">
+                <option value="reply" selected>Reply</option>
+                <option value="rewrite">Rewrite, Write New</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="outlang">Output language</label>
+          <select id="outlang">
+            <option value="auto" selected>Auto</option>
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+          </select>
+
+          <label for="paste">Message</label>
+          <textarea id="paste" placeholder="Paste it, or write here — Finch will clean it up."></textarea>
+
+          <label for="context">Optional context</label>
+          <textarea id="context" placeholder= "Write here: things like, this is my boss, or make it more friendly, etc."></textarea>
+
+          <button class="btn btnPrimary btnPrimaryWide" id="actionBtn" type="button">
+            Let’s do this
+          </button>
+
+          <div id="status" class="status" aria-live="polite"></div>
+        </section>
+
+        <!-- RESULT PANEL -->
+        <section class="panel resultWrap">
+          <div class="resultTop">
+            <label for="result">Result</label>
+            <div class="badgeCount">
+              <span id="charCount">0</span> chars
+            </div>
+          </div>
+
+          <textarea id="result" readonly placeholder="Your output shows up here…"></textarea>
+
+          <div class="resultActions">
+            <button class="btn btnGhost" id="copyBtn" type="button">Copy</button>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        <div>Built for privacy — no tracking, no data selling.</div>
+        <div class="ver">v1</div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- =========================
+     GLASS COUNTER BAR
+     Left: uses text | Right: Finch Plus
+========================= -->
+<div class="counterBar" aria-live="polite">
+  <span id="counterText">Checking daily uses…</span>
+  <a id="plusBtn" class="counterBtn" href="#" rel="noopener noreferrer">Finch Plus</a>
+</div>
+<!-- =========================
+     FINCH PLUS MODAL
+========================= -->
+<div id="plusModal" class="modalOverlay" hidden>
+  <div class="modalCard"
+       role="dialog"
+       aria-modal="true"
+       aria-labelledby="plusTitle">
+
+    <!-- Header / Banner -->
+    <div class="modalBanner">
+      <div class="modalBannerInner">
+        <div class="modalLogo">
+          <img
+            class="modalLogoImg"
+            src="/apple-touch-icon-180x180.png"
+            alt="Finch">
+        </div>
+        <div>
+          <div id="plusTitle" class="modalTitle">Start here</div>
+          <div class="modalSub">
+            One-time setup. After this, Finch just works.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="modalBody">
+      <ul class="modalList">
+        <li><strong>Already paying?</strong> This unlocks Finch Plus on this device.</li>
+        <li><strong>Not paying yet?</strong> You’ll go to Stripe to subscribe.</li>
+      </ul>
+
+      <div class="modalFine">
+        $2/month · 200 uses/day · Stripe handles billing
+      </div>
+
+      <label class="modalLabel" for="plusEmail">Email</label>
+      <input
+        id="plusEmail"
+        class="modalInput"
+        type="email"
+        placeholder="Email address"
+        autocomplete="email" />
+
+      <!-- Device limit messaging (hidden by default) -->
+      <div id="deviceLimitMsg"
+     aria-live="polite"
+     style="display:none; margin-top:12px; font-size:14px; line-height:1.35;">
+</div>
+
+      <button
+  id="manageDevicesLink"
+  type="button"
+  class="btn btnGhost"
+  style="display:none; margin-top:10px; width:100%;">
+  Remove oldest device
+</button>
+    </div>
+
+    <!-- Actions -->
+    <div class="modalActions">
+      <button
+        id="plusCancelBtn"
+        type="button"
+        class="btn btnGhost">
+        Cancel
+      </button>
+
+      <button
+        id="plusContinueBtn"
+        type="button"
+        class="btn btnPrimary">
+        Continue
+      </button>
+    </div>
+
+  </div>
+</div>
+<!-- SCRIPTS -->
+  <script src="/paywall.js?v=77792" defer></script>
+  <script src="/app.js?v=77785" defer></script>
+
+</body>
+</html>
