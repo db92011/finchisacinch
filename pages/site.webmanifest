@@ -1,7 +1,7 @@
 {
   "name": "Finch",
   "short_name": "Finch",
-  "start_url": "/app.html",
+  "start_url": "/app?source=pwa",
   "scope": "/",
   "display": "standalone",
   "background_color": "#f6fffd",

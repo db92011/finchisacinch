@@ -6,6 +6,42 @@
   <title>Finch</title>
   <meta name="theme-color" content="#2DCBB7" />
 
+  <script>
+    (function () {
+      var url = new URL(window.location.href);
+      var isLocalHost =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1";
+
+      var isStandalone = false;
+      try {
+        isStandalone =
+          window.matchMedia("(display-mode: standalone)").matches ||
+          window.navigator.standalone === true ||
+          document.referrer.indexOf("android-app://") === 0;
+      } catch (e) {}
+
+      var previewRequested = url.searchParams.get("preview") === "1";
+      if (previewRequested) {
+        try {
+          sessionStorage.setItem("finch_app_preview", "1");
+        } catch (e) {}
+      }
+
+      var previewGranted = false;
+      try {
+        previewGranted = sessionStorage.getItem("finch_app_preview") === "1";
+      } catch (e) {}
+
+      var pwaLaunch = url.searchParams.get("source") === "pwa";
+      var allowApp = isLocalHost || isStandalone || pwaLaunch || previewGranted;
+
+      if (!allowApp) {
+        window.location.replace("/#install");
+      }
+    })();
+  </script>
+
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="icon" href="/favicon.ico" />
