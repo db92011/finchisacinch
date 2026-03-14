@@ -26,11 +26,29 @@
   const PLUS_DAILY_LIMIT = 200;
 
   const STRIPE_URL = "https://buy.stripe.com/3cIdR90dd5Fd4CR1CX4ow01";
-  const API_URL   = "https://finch-api.txxqryxhg6.workers.dev/api/finch";
-  const PLAN_URL  = "https://finch-api.txxqryxhg6.workers.dev/api/plan";
+  function safeTrim(v) {
+    return String(v || "").trim();
+  }
 
-  const REMOVE_OLDEST_URL =
-    "https://finch-api.txxqryxhg6.workers.dev/api/devices/remove-oldest";
+  function stripTrailingSlashes(v) {
+    return String(v || "").replace(/\/+$/, "");
+  }
+
+  function getConfiguredApiBase() {
+    const globalBase = safeTrim(window.__FINCH_API_BASE__);
+    if (globalBase) return stripTrailingSlashes(globalBase);
+
+    const meta = document.querySelector('meta[name="finch-api-base"]');
+    const metaBase = safeTrim(meta && meta.getAttribute("content"));
+    if (metaBase) return stripTrailingSlashes(metaBase);
+
+    return stripTrailingSlashes(window.location.origin || "");
+  }
+
+  const API_BASE = getConfiguredApiBase();
+  const API_URL   = API_BASE + "/api/finch";
+  const PLAN_URL  = API_BASE + "/api/plan";
+  const REMOVE_OLDEST_URL = API_BASE + "/api/devices/remove-oldest";
 
   const PLUS_ACTIVE_KEY = "finch_plus_active";
   const PLUS_EMAIL_KEY  = "finch_plus_email";

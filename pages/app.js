@@ -13,7 +13,6 @@
 
   console.log("APPJS RUNNING v77785 — " + new Date().toISOString());
 
-  const API_URL = "https://finch-api.txxqryxhg6.workers.dev/api/finch";
   const NAME_KEY = "finch_owner_name";
 
   const $ = (id) => document.getElementById(id);
@@ -34,6 +33,23 @@
   const elStatus  = $("status");
 
   const safeTrim = (s) => String(s || "").trim();
+
+  function stripTrailingSlashes(v) {
+    return String(v || "").replace(/\/+$/, "");
+  }
+
+  function getConfiguredApiBase() {
+    const globalBase = safeTrim(window.__FINCH_API_BASE__);
+    if (globalBase) return stripTrailingSlashes(globalBase);
+
+    const meta = document.querySelector('meta[name="finch-api-base"]');
+    const metaBase = safeTrim(meta && meta.getAttribute("content"));
+    if (metaBase) return stripTrailingSlashes(metaBase);
+
+    return stripTrailingSlashes(window.location.origin || "");
+  }
+
+  const API_URL = `${getConfiguredApiBase()}/api/finch`;
 
   function setStatus(msg) {
     if (elStatus) elStatus.textContent = msg || "";
