@@ -179,6 +179,31 @@
     } catch (e) {}
   }
 
+  function captureProductLedProof(proof) {
+    try {
+      fetch("https://help.circlethepeople.com/api/product-led/proof", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          product_slug: "finch",
+          source: "finch_app",
+          surface: "product_led_output",
+          before_text: proof.before,
+          after_text: proof.after,
+          attribution_enabled: proof.attribution,
+          context: {
+            tone: proof.tone || null,
+            mode: proof.mode || null,
+            app_context: proof.context || null,
+            surface: "finch_app",
+            attribution: proof.attribution,
+          },
+        }),
+        keepalive: true,
+      }).catch(() => {});
+    } catch (e) {}
+  }
+
   function buildShareCard() {
     const before = safeTrim(lastInputText);
     const after = safeTrim(lastOutputText);
@@ -395,6 +420,7 @@
       return;
     }
     setStatus("Proof saved on this device.");
+    captureProductLedProof(proof);
     trackProductLedEvent("proof_saved", {
       tone: proof.tone || null,
       mode: proof.mode || null,

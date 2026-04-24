@@ -6,7 +6,7 @@
    - Hard wipe old caches on activate
 */
 
-const CACHE = "finch-static-v3"; // bump this to force-refresh everything
+const CACHE = "finch-static-v4"; // bump this to force-refresh everything
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
