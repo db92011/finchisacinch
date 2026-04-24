@@ -27,6 +27,9 @@
   const elAction  = $("actionBtn");
   const elClear   = $("clearBtn");
   const elCopy    = $("copyBtn");
+  const elShare   = $("shareBtn");
+  const elSaveProof = $("saveProofBtn");
+  const elAttribution = $("includeAttribution");
 
   const elResult  = $("result");
   const elCount   = $("charCount");
@@ -123,6 +126,101 @@
 
   // Canonical copy source (prevents iOS mailto encoding bleed)
   let lastOutputText = "";
+  let lastInputText = "";
+  let lastProofMeta = {};
+
+  function getProductLedSessionId() {
+    const key = "finch_product_led_session";
+    try {
+      let existing = localStorage.getItem(key);
+      if (existing) return existing;
+      existing = (crypto && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : `finch_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+      localStorage.setItem(key, existing);
+      return existing;
+    } catch (e) {
+      return `finch_${Date.now()}`;
+    }
+  }
+
+  function trackProductLedEvent(eventType, event = {}) {
+    const payload = {
+      session_id: getProductLedSessionId(),
+      event_type: eventType,
+      site_key: "circlethepeople",
+      product_key: "finch",
+      page_slug: "finch-app",
+      event: {
+        surface: "product_led_output",
+        ...event,
+      },
+    };
+
+    try {
+      fetch("https://help.circlethepeople.com/api/tracking/session", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          session_id: payload.session_id,
+          site_key: payload.site_key,
+          first_page_slug: payload.page_slug,
+          referrer: document.referrer || null,
+        }),
+        keepalive: true,
+      }).catch(() => {});
+
+      fetch("https://help.circlethepeople.com/api/tracking/event", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      }).catch(() => {});
+    } catch (e) {}
+  }
+
+  function buildShareCard() {
+    const before = safeTrim(lastInputText);
+    const after = safeTrim(lastOutputText);
+    const includeAttribution = !!(elAttribution && elAttribution.checked);
+    const lines = [
+      "Before:",
+      before,
+      "",
+      "After:",
+      after,
+    ];
+
+    if (includeAttribution) {
+      lines.push("", "Made easier with Finch: https://circlethepeople.com/finch");
+    }
+
+    return lines.join("\n");
+  }
+
+  function saveProofDraft() {
+    if (!lastOutputText || !lastInputText) return null;
+    const proof = {
+      id: `finch_proof_${Date.now()}`,
+      product: "finch",
+      created_at: new Date().toISOString(),
+      before: lastInputText,
+      after: lastOutputText,
+      tone: lastProofMeta.tone || "",
+      mode: lastProofMeta.mode || "",
+      context: lastProofMeta.context || "",
+      attribution: !!(elAttribution && elAttribution.checked),
+    };
+
+    try {
+      const key = "finch_proof_drafts";
+      const existing = JSON.parse(localStorage.getItem(key) || "[]");
+      existing.unshift(proof);
+      localStorage.setItem(key, JSON.stringify(existing.slice(0, 50)));
+    } catch (e) {}
+
+    return proof;
+  }
 
   async function onRun() {
     const paste = safeTrim(elPaste && elPaste.value);
@@ -188,9 +286,21 @@
       }
 
       lastOutputText = out;
+      lastInputText = paste;
+      lastProofMeta = {
+        tone: toneVal || "friendly",
+        mode: modeVal || "reply",
+        context: safeTrim(elContext && elContext.value),
+      };
       if (elResult) elResult.value = out;
       setCount();
       setStatus("Done.");
+      trackProductLedEvent("output_generated", {
+        tone: lastProofMeta.tone,
+        mode: lastProofMeta.mode,
+        input_length: paste.length,
+        output_length: out.length,
+      });
 
       if (window.FinchPaywall && typeof window.FinchPaywall.markUse === "function") {
         window.FinchPaywall.markUse();
@@ -223,6 +333,10 @@
       }
       setStatus("Copied.");
       animate();
+      trackProductLedEvent("output_copied", {
+        tone: lastProofMeta.tone || null,
+        mode: lastProofMeta.mode || null,
+      });
     } catch (e) {
       const ta = document.createElement("textarea");
       ta.value = lastOutputText;
@@ -235,7 +349,57 @@
       document.body.removeChild(ta);
       setStatus("Copied.");
       animate();
+      trackProductLedEvent("output_copied", {
+        tone: lastProofMeta.tone || null,
+        mode: lastProofMeta.mode || null,
+        fallback: true,
+      });
     }
+  }
+
+  async function onShareCard() {
+    if (!lastOutputText || !lastInputText) {
+      setStatus("Run Finch first, then share the card.");
+      return;
+    }
+
+    const text = buildShareCard();
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: "Finch before and after",
+          text,
+        });
+        setStatus("Shared.");
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        setStatus("Share card copied.");
+      } else {
+        throw new Error("share-unavailable");
+      }
+      trackProductLedEvent("output_shared", {
+        tone: lastProofMeta.tone || null,
+        mode: lastProofMeta.mode || null,
+        attribution: !!(elAttribution && elAttribution.checked),
+      });
+    } catch (e) {
+      if (String(e && e.name) === "AbortError") return;
+      setStatus("Could not share. Copy still works.");
+    }
+  }
+
+  function onSaveProof() {
+    const proof = saveProofDraft();
+    if (!proof) {
+      setStatus("Run Finch first, then save the proof.");
+      return;
+    }
+    setStatus("Proof saved on this device.");
+    trackProductLedEvent("proof_saved", {
+      tone: proof.tone || null,
+      mode: proof.mode || null,
+      attribution: proof.attribution,
+    });
   }
 
   function onClear() {
@@ -243,6 +407,8 @@
     if (elContext) elContext.value = "";
     if (elResult) elResult.value = "";
     lastOutputText = "";
+    lastInputText = "";
+    lastProofMeta = {};
     setCount();
     setStatus("");
   }
@@ -253,6 +419,8 @@
 
     if (elAction) elAction.addEventListener("click", onRun);
     if (elCopy) elCopy.addEventListener("click", onCopy);
+    if (elShare) elShare.addEventListener("click", onShareCard);
+    if (elSaveProof) elSaveProof.addEventListener("click", onSaveProof);
     if (elClear) elClear.addEventListener("click", onClear);
     if (elResult) elResult.addEventListener("input", setCount);
   }

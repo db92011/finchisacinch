@@ -215,9 +215,37 @@ textarea{
 
 /* Copy area */
 .resultActions{
-  display:flex;
-  justify-content: flex-end;
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
   margin-top: 12px;
+}
+
+.resultActions .btn{
+  width: 100%;
+  padding-inline: 14px;
+}
+
+.attributionToggle{
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 12px;
+  color: rgba(0,0,0,0.62);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.attributionToggle input{
+  width: auto;
+  margin-top: 2px;
+  accent-color: var(--brand);
+}
+
+@media (max-width: 620px){
+  .resultActions{
+    grid-template-columns: 1fr;
+  }
 }
 
 /* FOOTER */
