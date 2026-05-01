@@ -4,6 +4,12 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   X-Frame-Options: DENY
 
+/
+  X-Robots-Tag: noindex, follow, noarchive
+
+/index.html
+  X-Robots-Tag: noindex, follow, noarchive
+
 /app
   X-Robots-Tag: noindex, nofollow, noarchive
 
