@@ -352,6 +352,19 @@ a{ color:inherit; }
   text-align:center;
 }
 
+.installTrustNote{
+  max-width:760px;
+  margin:14px auto 24px auto;
+  padding:14px 16px;
+  border:1px solid rgba(45,203,183,.28);
+  border-radius:16px;
+  background:rgba(45,203,183,.08);
+  color:var(--muted);
+  line-height:1.65;
+  font-size:15px;
+  text-align:center;
+}
+
 /* grids */
 .grid3,
 .installGrid,
