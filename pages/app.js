@@ -124,6 +124,41 @@
     return { ok: resp.ok, status: resp.status, data: json, text: "" };
   }
 
+  function buildReplyContext(mode, rawContext) {
+    const context = safeTrim(rawContext);
+    if (mode !== "reply") return context;
+
+    const guard = [
+      "Reply mode speaker guard:",
+      "- The pasted message is the incoming message to answer. Treat it as the other person's words and facts.",
+      "- The optional context below is the user's reply intent, facts, and personal situation.",
+      "- Write from the user's point of view only.",
+      "- Do not claim facts from the incoming message as if they belong to the user.",
+      "- If the optional context conflicts with the pasted message, trust the optional context for the user's facts."
+    ].join("\n");
+
+    if (!context) return guard;
+    return [guard, "", "User reply intent/facts:", context].join("\n");
+  }
+
+  function buildApiInput(mode, pastedText, rawContext) {
+    const input = safeTrim(pastedText);
+    const context = safeTrim(rawContext);
+    if (mode !== "reply") return input;
+
+    return [
+      "TASK: Write a natural reply from MY point of view. Do not write as the sender of the incoming message.",
+      "",
+      "INCOMING MESSAGE FROM THE OTHER PERSON:",
+      input,
+      "",
+      "MY REPLY INTENT AND FACTS:",
+      context || "Not provided. Infer a brief reply to the incoming message, but do not invent personal facts.",
+      "",
+      "Write only the ready-to-send reply."
+    ].join("\n");
+  }
+
   // Canonical copy source (prevents iOS mailto encoding bleed)
   let lastOutputText = "";
   let lastInputText = "";
@@ -261,12 +296,24 @@
       const toneVal = elTone ? elTone.value : "friendly";
       const modeVal = elMode ? elMode.value : "reply";
       const outlangVal = elOutlang ? elOutlang.value : "auto";
+      const contextVal = safeTrim(elContext && elContext.value);
+      const normalizedMode = modeVal || "reply";
 
       const payload = {
-        input: paste,
-        context: safeTrim(elContext && elContext.value),
+        input: buildApiInput(normalizedMode, paste, contextVal),
+        raw_input: paste,
+        context: buildReplyContext(normalizedMode, contextVal),
+        user_context: contextVal,
+        input_role: normalizedMode === "reply" ? "incoming_message_to_answer" : "user_draft",
+        context_role: normalizedMode === "reply" ? "user_reply_intent_and_facts" : "style_or_situation_context",
+        speaker_guard: {
+          preserve_user_point_of_view: true,
+          pasted_text_role: normalizedMode === "reply" ? "other_person_message" : "user_text",
+          context_role: normalizedMode === "reply" ? "user_reply_intent_and_facts" : "style_or_situation_context",
+          trust_context_for_user_facts: normalizedMode === "reply",
+        },
         tone: toneVal || "friendly",
-        mode: modeVal || "reply",
+        mode: normalizedMode,
         outlang: outlangVal || "auto",
         signature: safeTrim(elName && elName.value),
       };
