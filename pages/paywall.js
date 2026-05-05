@@ -496,7 +496,11 @@
     if (overlay.dataset.finchBound === "1") return;
     overlay.dataset.finchBound = "1";
 
-    cancel.addEventListener("click", () => forceModalHidden(), false);
+    cancel.addEventListener("click", (e) => {
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
+      forceModalHidden();
+    }, false);
     cont.addEventListener("click", handleContinue, false);
 
     overlay.addEventListener("click", (e) => {
