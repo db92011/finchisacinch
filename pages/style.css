@@ -257,6 +257,11 @@ a{ color:inherit; }
     filter .12s ease,
     background .12s ease;
   user-select:none;
+  cursor: pointer;
+}
+
+button.btn {
+  font: inherit;
 }
 
 .btnPrimary{
@@ -363,6 +368,38 @@ a{ color:inherit; }
   line-height:1.65;
   font-size:15px;
   text-align:center;
+}
+
+.installFeature{
+  max-width:760px;
+  display:grid;
+  grid-template-columns:72px 1fr;
+  gap:16px;
+  align-items:center;
+  margin:18px auto 18px;
+  padding:18px;
+  border:1px solid rgba(15,23,42,.10);
+  border-radius:22px;
+  background:rgba(255,255,255,.74);
+  box-shadow:0 16px 44px rgba(0,0,0,.06);
+}
+
+.installFeature img{
+  width:72px;
+  height:72px;
+  border-radius:22px;
+  box-shadow:0 14px 28px rgba(0,0,0,.10);
+}
+
+.installFeature h3{
+  margin:0 0 6px;
+  font-size:20px;
+}
+
+.installFeature p{
+  margin:0 0 12px;
+  color:var(--muted);
+  line-height:1.55;
 }
 
 /* grids */
@@ -550,6 +587,15 @@ a{ color:inherit; }
 @media (max-width: 560px){
   .hero{ padding: 52px 0 22px 0; }
   .heroTitle{ font-size: clamp(36px, 10vw, 52px); }
+
+  .installFeature{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+
+  .installFeature img{
+    margin:0 auto;
+  }
 
   .ctaRow{
     flex-direction: column;

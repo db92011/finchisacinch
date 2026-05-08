@@ -11,11 +11,22 @@
 
   <!-- PWA -->
   <meta name="theme-color" content="#2DCBB7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Finch" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="manifest" href="/site.webmanifest" />
 
   <!-- Icons (adjust filenames only if yours differ) -->
   <link rel="icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="apple-touch-startup-image" href="/splash/iphone-13-14-15.png" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/iphone-pro-max.png" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/iphone-14-pro.png" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/iphone-11-pro-max.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/iphone-11.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/iphone-x.png" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/ipad-portrait.png" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/ipad-pro-portrait.png" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
 
   <!-- Social -->
   <meta property="og:title" content="Finch — AI Writing for Messages, Emails, and Replies" />
@@ -84,14 +95,18 @@
 </p>
           <p class="heroSub">
             Finch's public marketing page lives at <a href="https://circlethepeople.com/finch/">Circle the People</a>.
-            This page stays available for installation.
+            Install from this page. The saved icon opens the Finch app.
           </p>
 
           <div class="ctaRow">
-            <a class="btn btnPrimary" href="#install-ios">Install on iPhone/iPad</a>
+            <button class="btn btnPrimary" type="button" data-install-action>Install Finch</button>
+            <a class="btn btnGhost" href="#install-ios">iPhone steps</a>
             <a class="btn btnGhost" href="#install-android">Install on Android</a>
             <a class="btn btnGhost" href="#install-desktop">Install on Mac/Windows</a>
           </div>
+          <p class="installTrustNote" data-install-status>
+            Use the Install Finch button here. Safari uses Share or Add to Dock.
+          </p>
 
           <div class="trustRow">
             <div class="trustItem">
@@ -121,7 +136,7 @@
           </ul>
 
           <div class="note">
-            Finch is install-only. This page is the installer and instructions.
+            Finch installs from this marketing page. The saved icon opens the app runtime.
           </div>
         </div>
       </div>
@@ -205,9 +220,16 @@
       <div class="wrap">
         <h2 class="sectionTitle">Install</h2>
         <p class="sectionSub">
-          Finch installs to your device so you can open anytime.
-          Pick your device below.
+          Finch installs to your device from this page so you can open the app anytime.
         </p>
+        <div class="installFeature">
+          <img src="/icon-512.png" alt="" />
+          <div>
+            <h3>Install Finch here</h3>
+            <p>Use the button on this page. The browser saves Finch as an app icon and that icon opens the app runtime.</p>
+            <button class="btn btnPrimary" type="button" data-install-action>Install Finch</button>
+          </div>
+        </div>
         <p class="installTrustNote">
           Why install this way? Finch installs as a clean web app, so it creates a normal app icon
           without changing your system settings, adding hidden background software, or putting a
@@ -298,7 +320,7 @@
         <h2>Messages do not have to interrupt your flow.</h2>
         <p>Install Finch and keep quick AI writing one tap away.</p>
         <div class="ctaRow">
-          <a class="btn btnPrimary" href="#install">Install Finch</a>
+          <button class="btn btnPrimary" type="button" data-install-action>Install Finch</button>
           <a class="btn btnGhost" href="https://help.circlethepeople.com/best-ai-tool-for-writing">Read a help guide first</a>
         </div>
         <div class="privacyLine">Built for privacy. No tracking. No data selling.</div>
