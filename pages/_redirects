@@ -1,2 +1,3 @@
-/install/*  /  302
-/install  /  302
+/install  /install/index.html  200
+/install/*  /install/:splat  200
+/app  /app.html  200
