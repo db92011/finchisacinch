@@ -34,7 +34,7 @@
   for (const button of installButtons) {
     button.addEventListener("click", async () => {
       if (isStandalone) {
-        window.location.href = "/app?source=pwa";
+        window.location.href = "/app.html?source=pwa";
         return;
       }
 

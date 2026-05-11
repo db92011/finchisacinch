@@ -120,7 +120,7 @@ window.addEventListener('beforeinstallprompt', (event) => {
 
 installAction?.addEventListener('click', async () => {
   if (isStandalone) {
-    window.location.href = '/app?source=pwa';
+    window.location.href = '/app.html?source=pwa';
     return;
   }
 

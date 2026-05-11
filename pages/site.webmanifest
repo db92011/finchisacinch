@@ -1,11 +1,22 @@
 {
   "name": "Finch",
   "short_name": "Finch",
-  "start_url": "/app?source=pwa",
+  "description": "Quick AI writing for replies, emails, captions, comments, and posts.",
+  "start_url": "/app.html?source=pwa",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#f6fffd",
   "theme_color": "#2DCBB7",
+  "screenshots": [
+    {
+      "src": "/finch-screenshot.png",
+      "sizes": "1320x2868",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Finch app"
+    }
+  ],
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
