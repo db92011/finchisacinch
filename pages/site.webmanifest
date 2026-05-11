@@ -2,7 +2,7 @@
   "name": "Finch",
   "short_name": "Finch",
   "description": "Quick AI writing for replies, emails, captions, comments, and posts.",
-  "start_url": "/app.html?source=pwa",
+  "start_url": "/app?source=pwa",
   "scope": "/",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],

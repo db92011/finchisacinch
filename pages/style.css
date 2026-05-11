@@ -613,6 +613,59 @@ button.btn {
   .btn{ transition:none; }
   html{ scroll-behavior:auto; }
 }
+
+.installSheet{
+  width: min(520px, calc(100vw - 32px));
+  border: 0;
+  border-radius: 8px;
+  padding: 0;
+  color: var(--ink);
+  background: transparent;
+}
+
+.installSheet::backdrop{
+  background: rgba(5, 11, 16, .52);
+}
+
+.installSheetCard{
+  position: relative;
+  border: 1px solid rgba(45, 203, 183, .22);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 26px 70px rgba(7, 20, 28, .22);
+  padding: 28px;
+}
+
+.installSheetCard h2{
+  margin: 8px 0 16px;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.installSheetCard ol{
+  margin: 0;
+  padding-left: 22px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.installSheetCard p:last-child{
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.installSheetClose{
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  border: 1px solid rgba(15, 23, 42, .14);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--ink);
+  font-weight: 800;
+  padding: 8px 12px;
+  cursor: pointer;
+}
 /* ===== HERO OVERRIDE (force centered single column everywhere) ===== */
 .heroGrid{ grid-template-columns: 1fr !important; }
 .heroCopy{ text-align: center !important; margin: 0 auto !important; max-width: 760px !important; }

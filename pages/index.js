@@ -34,7 +34,7 @@
   for (const button of installButtons) {
     button.addEventListener("click", async () => {
       if (isStandalone) {
-        window.location.href = "/app.html?source=pwa";
+        window.location.href = "/app?source=pwa";
         return;
       }
 
@@ -48,10 +48,12 @@
 
       if (isAppleTouch && isSafari) {
         setInstallStatus("Tap Share, choose Add to Home Screen, then tap Add. Open Finch from the new icon.");
+        document.getElementById("installSheet")?.showModal?.();
         return;
       }
 
       setInstallStatus("Use the browser install control here. Chrome and Edge may show Install app in the address bar or menu; Safari uses Add to Dock.");
+      document.getElementById("installSheet")?.showModal?.();
     });
   }
 

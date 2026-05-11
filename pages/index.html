@@ -77,9 +77,6 @@
 
       <nav class="siteNav">
         <a href="https://circlethepeople.com/" class="navLink navLinkHome">Back to Circle</a>
-        <a href="#how" class="navLink">How it works</a>
-        <a href="#install" class="navLink">Install</a>
-        <a href="#reviews" class="navLink">Reviews</a>
       </nav>
     </div>
   </header>
@@ -96,15 +93,11 @@
   Finch is an AI writing tool for quick replies, emails, captions, comments, and posts. Paste your message or email, pick a flavor, and copy a ready-to-send version.
 </p>
           <p class="heroSub">
-            Finch's public marketing page lives at <a href="https://circlethepeople.com/finch/">Circle the People</a>.
             Install from this page. The saved icon opens the Finch app.
           </p>
 
           <div class="ctaRow">
             <button class="btn btnPrimary" type="button" data-install-action>Install Finch</button>
-            <a class="btn btnGhost" href="#install-ios">iPhone steps</a>
-            <a class="btn btnGhost" href="#install-android">Install on Android</a>
-            <a class="btn btnGhost" href="#install-desktop">Install on Mac/Windows</a>
           </div>
           <p class="installTrustNote" data-install-status>
             Use the Install Finch button here. Safari uses Share or Add to Dock.
@@ -169,30 +162,6 @@
         </div>
       </section>
 
-    <section class="section" aria-labelledby="help-guides">
-      <div class="wrap">
-        <h2 class="sectionTitle" id="help-guides">Popular help guides</h2>
-        <p class="sectionSub">
-          These are some of the most direct ways people use Finch before they install it.
-        </p>
-
-        <div class="grid3">
-          <div class="tile">
-            <h3><a href="https://help.circlethepeople.com/best-ai-tool-for-writing">Best AI tool for writing</a></h3>
-            <p>Start with the writing in front of you: text, email, caption, comment, post, or reply.</p>
-          </div>
-          <div class="tile">
-            <h3><a href="https://help.circlethepeople.com/make-message-more-professional-for-email">Make a message more professional for email</a></h3>
-            <p>For work moments when the point is right but the delivery still needs cleanup.</p>
-          </div>
-          <div class="tile">
-            <h3><a href="https://help.circlethepeople.com/ai-text-message-writer">AI text message writer</a></h3>
-            <p>Paste the message, pick the tone, copy the version you can send.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- HOW IT WORKS -->
     <section class="section" id="how">
       <div class="wrap">
@@ -229,7 +198,6 @@
           <div>
             <h3>Install Finch here</h3>
             <p>Use the button on this page. The browser saves Finch as an app icon and that icon opens the app runtime.</p>
-            <button class="btn btnPrimary" type="button" data-install-action>Install Finch</button>
           </div>
         </div>
         <p class="installTrustNote">
@@ -316,19 +284,21 @@
       </div>
     </section>
 
-    <!-- FINAL CTA -->
-    <section class="finalCta">
-      <div class="wrap finalCtaInner">
-        <h2>Messages do not have to interrupt your flow.</h2>
-        <p>Install Finch and keep quick AI writing one tap away.</p>
-        <div class="ctaRow">
-          <button class="btn btnPrimary" type="button" data-install-action>Install Finch</button>
-          <a class="btn btnGhost" href="https://help.circlethepeople.com/best-ai-tool-for-writing">Read a help guide first</a>
-        </div>
-        <div class="privacyLine">Built for privacy. No tracking. No data selling.</div>
-      </div>
-    </section>
   </main>
+
+  <dialog id="installSheet" class="installSheet" aria-labelledby="installSheetTitle">
+    <form method="dialog" class="installSheetCard">
+      <button class="installSheetClose" type="submit" aria-label="Close install instructions">Close</button>
+      <p class="eyebrow">Install Finch</p>
+      <h2 id="installSheetTitle">Use your browser install control.</h2>
+      <ol>
+        <li>Stay on this Finch install page.</li>
+        <li>Use the browser install prompt, install icon, Add to Dock, or Add to Home Screen.</li>
+        <li>Open Finch from the saved app icon. It opens the Finch app runtime.</li>
+      </ol>
+      <p>The Finch icon opens <strong>finchisacinch.com/app?source=pwa</strong>.</p>
+    </form>
+  </dialog>
 
   <footer class="siteFooter">
     <div class="wrap footerInner">

@@ -1,2 +1,0 @@
-/install  /install/index.html  200
-/install/*  /install/:splat  200
