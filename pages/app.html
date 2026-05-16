@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Finch</title>
   <meta name="theme-color" content="#2DCBB7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Finch" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
   <script>
     (function () {
@@ -45,6 +48,14 @@
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-startup-image" href="/splash/iphone-13-14-15.png" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/iphone-pro-max.png" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/iphone-14-pro.png" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/iphone-11-pro-max.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/iphone-11.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/iphone-x.png" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/ipad-portrait.png" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+  <link rel="apple-touch-startup-image" href="/splash/ipad-pro-portrait.png" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
 
   <!-- Styles -->
   <link rel="stylesheet" href="/app.css?v=77781" />
@@ -169,7 +180,9 @@
   <div class="modalCard"
        role="dialog"
        aria-modal="true"
-       aria-labelledby="plusTitle">
+       aria-labelledby="plusTitle"
+       aria-describedby="plusDescription"
+       tabindex="-1">
 
     <!-- Header / Banner -->
     <div class="modalBanner">
@@ -182,7 +195,7 @@
         </div>
         <div>
           <div id="plusTitle" class="modalTitle">Start here</div>
-          <div class="modalSub">
+          <div id="plusDescription" class="modalSub">
             One-time setup. After this, Finch just works.
           </div>
         </div>

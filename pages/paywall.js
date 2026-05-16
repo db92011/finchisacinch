@@ -58,6 +58,7 @@
   let plusClickBusy = false;
   let continueBusy = false;
   let removeBusy = false;
+  let lastModalFocus = null;
 
   // =========================
   // STATE
@@ -184,6 +185,29 @@
 
     document.documentElement.style.overflow = "";
     document.body.style.overflow = "";
+    document.body.classList.remove("modal-open");
+
+    if (lastModalFocus && typeof lastModalFocus.focus === "function") {
+      try { lastModalFocus.focus({ preventScroll: true }); } catch (e) {}
+    }
+    lastModalFocus = null;
+  }
+
+  function getFocusableModalNodes(card) {
+    if (!card) return [];
+    const selector = [
+      "a[href]",
+      "button:not([disabled])",
+      "input:not([disabled])",
+      "select:not([disabled])",
+      "textarea:not([disabled])",
+      "[tabindex]:not([tabindex='-1'])"
+    ].join(",");
+    return Array.prototype.slice.call(card.querySelectorAll(selector)).filter((node) => {
+      const rect = node.getBoundingClientRect();
+      const style = window.getComputedStyle(node);
+      return rect.width > 0 && rect.height > 0 && style.visibility !== "hidden" && style.display !== "none";
+    });
   }
 
   function resetDeviceLimitUI() {
@@ -214,10 +238,12 @@
   function showModal() {
     const els = getModalEls();
     const overlay = els.overlay;
+    const card = els.card;
     const email = els.email;
     if (!overlay || !email) return;
 
     resetDeviceLimitUI();
+    lastModalFocus = document.activeElement;
 
     overlay.hidden = false;
     overlay.removeAttribute("hidden");
@@ -225,12 +251,13 @@
 
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
+    document.body.classList.add("modal-open");
 
     const saved = getPlusEmail();
     if (saved && !email.value) email.value = saved;
 
     setTimeout(() => {
-      try { email.focus(); } catch (e) {}
+      try { (email || card).focus({ preventScroll: true }); } catch (e) {}
     }, 30);
   }
 
@@ -510,9 +537,40 @@
     document.addEventListener("keydown", (e) => {
       const els2 = getModalEls();
       const ov = els2.overlay;
+      const modalCard = els2.card;
       if (!ov || ov.hidden) return;
 
-      if (e.key === "Escape") forceModalHidden();
+      if (e.key === "Escape") {
+        e.preventDefault();
+        forceModalHidden();
+        return;
+      }
+
+      if (e.key === "Tab") {
+        const focusable = getFocusableModalNodes(modalCard);
+        if (!focusable.length) {
+          e.preventDefault();
+          try { modalCard.focus({ preventScroll: true }); } catch (err) {}
+          return;
+        }
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const active = document.activeElement;
+
+        if (e.shiftKey && active === first) {
+          e.preventDefault();
+          last.focus();
+          return;
+        }
+
+        if (!e.shiftKey && active === last) {
+          e.preventDefault();
+          first.focus();
+          return;
+        }
+      }
+
       if (e.key === "Enter") {
         e.preventDefault();
         handleContinue();

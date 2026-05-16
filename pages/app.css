@@ -360,15 +360,22 @@ textarea{
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 18px;
+  padding: calc(18px + env(safe-area-inset-top, 0px))
+    calc(18px + env(safe-area-inset-right, 0px))
+    calc(18px + env(safe-area-inset-bottom, 0px))
+    calc(18px + env(safe-area-inset-left, 0px));
   z-index: 100000;
+  overscroll-behavior: contain;
+  touch-action: none;
 }
 
 /* Card: never run off-screen */
 #plusModal .modalCard{
   width: min(520px, 100%);
-  max-height: calc(100vh - 36px);
+  max-height: calc(100dvh - 36px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
   overflow: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
 
   border-radius: 20px;
   background: rgba(255,255,255,0.94);
@@ -376,6 +383,10 @@ textarea{
   backdrop-filter: blur(14px);
   box-shadow: 0 24px 80px rgba(0,0,0,0.22);
   border: 1px solid rgba(0,0,0,0.08);
+}
+
+body.modal-open{
+  overflow: hidden;
 }
 
 /* Banner */
