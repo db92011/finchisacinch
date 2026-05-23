@@ -47,8 +47,9 @@ export default {
     const FREE_DAILY_CAP = 3;
     const PLUS_DAILY_CAP = 200;
     const MAX_DEVICES_PER_EMAIL = 2;
+    const FREE_ACCOUNT_EMAILS = new Set(["danbrooking@gmail.com"]);
 
-    const subscribeUrl = "https://buy.stripe.com/3cIdR90dd5Fd4CR1CX4ow01";
+    const subscribeUrl = "https://buy.stripe.com/3cIdR90dd5Fd4CR1CX4ow01?prefilled_email=danbrooking%40gmail.com";
 
     // ============================================================
     // HELPERS
@@ -245,6 +246,9 @@ export default {
     // ---- Plan lookup (from KV)
     async function getPlanForEmail(email) {
       if (!email) return { plan: "free", status: "none", access_until: 0 };
+      if (FREE_ACCOUNT_EMAILS.has(safeLower(email))) {
+        return { plan: "plus", status: "free_access", access_until: Number.MAX_SAFE_INTEGER };
+      }
 
       const raw = await env.FINCH_KV.get(`plus:${safeLower(email)}`);
       const rec = raw ? JSON.parse(raw) : null;

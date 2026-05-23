@@ -24,8 +24,9 @@
   // =========================
   const FREE_DAILY_LIMIT = 3;
   const PLUS_DAILY_LIMIT = 200;
+  const FREE_ACCOUNT_EMAIL = "danbrooking@gmail.com";
 
-  const STRIPE_URL = "https://buy.stripe.com/3cIdR90dd5Fd4CR1CX4ow01";
+  const STRIPE_URL = "https://buy.stripe.com/3cIdR90dd5Fd4CR1CX4ow01?prefilled_email=danbrooking%40gmail.com";
   function safeTrim(v) {
     return String(v || "").trim();
   }
@@ -253,7 +254,7 @@
     document.body.style.overflow = "hidden";
     document.body.classList.add("modal-open");
 
-    const saved = getPlusEmail();
+    const saved = getPlusEmail() || FREE_ACCOUNT_EMAIL;
     if (saved && !email.value) email.value = saved;
 
     setTimeout(() => {
@@ -484,6 +485,12 @@
       if (!val) return;
 
       resetDeviceLimitUI();
+
+      if (val === FREE_ACCOUNT_EMAIL) {
+        forceModalHidden();
+        setPlusActive(val);
+        return;
+      }
 
       const data = await checkPlan(val);
 
