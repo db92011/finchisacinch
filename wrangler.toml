@@ -1,0 +1,19 @@
+name = "finch-api"
+main = "worker/src/index.js"
+compatibility_date = "2026-05-22"
+workers_dev = false
+
+routes = [
+  { pattern = "finchisacinch.com/api/*", zone_name = "finchisacinch.com" }
+]
+
+[[kv_namespaces]]
+binding = "FINCH_KV"
+id = "9edc2007e68d4368af19d804faf8bc3e"
+
+[ai]
+binding = "AI"
+
+[vars]
+MAILERLITE_DEVICE_RESET_GROUP_ID = "178236541572745034"
+MAILERLITE_FINCH_PLUS_GROUP_ID = "178218747343930521"
