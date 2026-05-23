@@ -199,6 +199,54 @@ a{ color:inherit; }
   letter-spacing:-.01em;
 }
 
+.heroExampleCard{
+  display:grid;
+  gap:12px;
+  text-align:left;
+}
+
+.exampleLabel{
+  margin:0;
+  color:#0b756a;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+}
+
+.exampleMessage{
+  margin:0;
+  color:var(--ink);
+  font-size:clamp(21px, 3vw, 28px);
+  line-height:1.18;
+  font-weight:850;
+  letter-spacing:-.02em;
+}
+
+.toneStack{
+  display:grid;
+  gap:8px;
+  border-top:1px solid rgba(15,23,42,.08);
+  padding-top:12px;
+}
+
+.toneStack p{
+  margin:0;
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.46;
+}
+
+.toneStack strong{
+  color:var(--ink);
+}
+
+.toneStack .contextNote{
+  margin-top:2px;
+  color:#344257;
+  font-size:13px;
+}
+
 .cleanList{
   margin:0;
   padding-left:18px;
