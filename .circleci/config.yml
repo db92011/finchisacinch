@@ -1,0 +1,34 @@
+version: 2.1
+
+jobs:
+  source-check:
+    docker:
+      - image: cimg/node:22.11
+    working_directory: ~/project
+    steps:
+      - checkout
+      - run:
+          name: Verify Finch static PWA files
+          command: |
+            node - <<'NODE'
+            const fs = require('fs');
+            for (const file of [
+              'pages/index.html',
+              'pages/app.html',
+              'pages/app.js',
+              'pages/app.css',
+              'pages/site.webmanifest',
+              'pages/sw.js',
+              'pages/_headers',
+              'pages/_redirects'
+            ]) fs.statSync(file);
+            const manifest = JSON.parse(fs.readFileSync('pages/site.webmanifest', 'utf8'));
+            if (!manifest.start_url || !manifest.scope || manifest.display !== 'standalone') {
+              throw new Error('Finch manifest must define start_url, scope, and standalone display.');
+            }
+            NODE
+
+workflows:
+  finch_integrity:
+    jobs:
+      - source-check
